@@ -1,0 +1,158 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS Maps SDK for JavaScript Tutorials: Display a map</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <script>
+        require([
+            "esri/config", 
+            "esri/Map", 
+            "esri/views/MapView",
+            "esri/Graphic",
+            "esri/layers/GraphicsLayer"
+            ], 
+            
+            function(esriConfig, Map, MapView, Graphic, GraphicsLayer) {
+            
+            esriConfig.apiKey = "AAPK24673c9901c844c5a445918bf7dbe68djTyudnFJXar-9JmzQQ7_-N5o7ATyIrrCzKcVyS2l4BsQs9e3jpPkLKjVA4SrMwro";
+
+            // Map
+            const AKmap = new Map({
+                basemap: "hybrid" // Basemap Layer service
+            })
+
+            // Map View - so we can see something on the map
+            const view = new MapView({
+                map: AKmap,
+                center: [-118.805, 34.027], // Longitude, latitude
+                zoom: 13, // Zoom level
+                container: "viewDiv" // Div element
+            }); 
+
+            // Graphics Layer --  A graphics layer is a container for graphics. It is used with a map view to display graphics on a map. 
+            // You can add more than one graphics layer to a map view. Graphics layers are displayed on top of all other layers.
+            const graphicsLayer = new GraphicsLayer();
+            AKmap.add(graphicsLayer);
+
+            // Create Point geometry
+            const point = { //Create a point
+                type: "point",
+                longitude: -118.80657463861,
+                latitude: 34.0005930608889
+            };
+
+            // Create Marker symbology
+            const simpleMarkerSymbol = {
+                type: "simple-marker",
+                color: [226, 119, 40],  // Orange
+                outline: {
+                    color: [255, 255, 255], // White
+                    width: 1
+                }
+            };
+            
+            //Create a Graphic and set the geometry and symbol properties. The Graphic class will autocast point and simpleMarkerSymbol when it is constructed.
+            //Point graphics support a number of symbol types such as SimpleMarkerSymbol, PictureMarkerSymbol and TextSymbol. 
+            //Learn more about symbols in the API documentation.
+            const pointGraphic = new Graphic({
+                geometry: point,
+                symbol: simpleMarkerSymbol
+            });
+
+            graphicsLayer.add(pointGraphic);
+
+            // Create a line geometry
+            const polyline = {
+                type: "polyline",
+                paths: [
+                    [-118.821527826096, 34.0139576938577], //Longitude, latitude
+                    [-118.814893761649, 34.0080602407843], //Longitude, latitude
+                    [-118.808878330345, 34.0016642996246]  //Longitude, latitude
+                ]
+            };
+            
+            // Create line symbology
+            const simpleLineSymbol = {
+                type: "simple-line",
+                color: [226, 119, 40], // Orange
+                width: 2
+            };
+
+            // Create a polyline graphic and set to the geometry and symbol properties
+            const polylineGraphic = new Graphic({
+                geometry: polyline,
+                symbol: simpleLineSymbol
+            });
+           
+            graphicsLayer.add(polylineGraphic);
+        
+            // Createa polygon geometry object
+            const polygon = {
+                type: "polygon",
+                rings: [
+                    [-118.818984489994, 34.0137559967283], //Longitude, latitude
+                    [-118.806796597377, 34.0215816298725], //Longitude, latitude
+                    [-118.791432890735, 34.0163883241613], //Longitude, latitude
+                    [-118.79596686535, 34.008564864635],   //Longitude, latitude
+                    [-118.808558110679, 34.0035027131376]  //Longitude, latitude
+                ]
+            };
+
+            // Create style for polygon fill
+            const simpleFillSymbol = {
+                type: "simple-fill",
+                color: [227, 139, 79, 0.8],  // Orange, opacity 80%
+                outline: {
+                    color: [255, 255, 255],
+                    width: 1
+                }
+            };
+        
+        
+            // Creat a popup variable
+            const popupTemplate = {
+                title: "{Name}",
+                content: "{Description}"
+            }
+
+            // Create attributes variable to assign to the popup 
+            const attributes = {
+                Name: "Graphic",
+                Description: "I am a polygon"
+            }
+
+            // Create a graphic for the polygon, and the popup template / attribute properties
+            const polygonGraphic = new Graphic({
+                geometry: polygon,
+                symbol: simpleFillSymbol,
+                attributes: attributes,
+                popupTemplate: popupTemplate
+            });
+
+            graphicsLayer.add(polygonGraphic);
+        
+        
+        
+        });
+      </script>
+
+</head>
+  <body>
+    <h1>Hello World</h1>
+    <p>This should have ESRI formatting thru the CSS</p>
+    <div id="viewDiv"></div>
+  </body>
+</html>

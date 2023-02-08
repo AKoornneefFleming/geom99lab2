@@ -41,21 +41,21 @@
     });
 
     
-    //Trailheads feature layer (points)
+    //River Feature layer (lines)
     const riverLayer = new FeatureLayer({
         url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/arcgis/rest/services/AKamazonJson/FeatureServer/0"
     });
 
     AKmap.add(riverLayer);
 
-    //Trails feature layer (lines)
+    //Places feature layer (points)
     const placesLayer = new FeatureLayer({
         url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/arcgis/rest/services/AKamazonJson/FeatureServer/1"
     });
 
     AKmap.add(placesLayer, 0);
 
-    //Trails feature layer (lines)
+    //Hearts feature layer (polygon) 
     const heartLayer = new FeatureLayer({
         url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/arcgis/rest/services/HEARTi/FeatureServer"
     });
